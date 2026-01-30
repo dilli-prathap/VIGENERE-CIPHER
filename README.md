@@ -30,7 +30,66 @@ STEP-8: Repeat the above steps to generate the entire cipher text.
 
 
 ## PROGRAM
+```
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
+void encrypt(char text[], char key[]) {
+    int i, j = 0;
+    for (i = 0; text[i] != '\0'; i++) {
+        if (isalpha(text[i])) {
+            char p = toupper(text[i]) - 'A';
+            char k = toupper(key[j % strlen(key)]) - 'A';
+            text[i] = (p + k) % 26 + 'A';
+            j++;
+        }
+    }
+}
+
+void decrypt(char text[], char key[]) {
+    int i, j = 0;
+    for (i = 0; text[i] != '\0'; i++) {
+        if (isalpha(text[i])) {
+            char c = toupper(text[i]) - 'A';
+            char k = toupper(key[j % strlen(key)]) - 'A';
+            text[i] = (c - k + 26) % 26 + 'A';
+            j++;
+        }
+    }
+}
+
+int main() {
+    char text[100], key[100];
+    int choice;
+
+    printf("Enter the text: ");
+    gets(text);
+
+    printf("Enter the key: ");
+    gets(key);
+
+    printf("1. Encrypt\n2. Decrypt\nEnter choice: ");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        encrypt(text, key);
+        printf("Encrypted Text: %s\n", text);
+    } 
+    else if (choice == 2) {
+        decrypt(text, key);
+        printf("Decrypted Text: %s\n", text);
+    } 
+    else {
+        printf("Invalid choice!\n");
+    }
+
+    return 0;
+}
+
+```
 ## OUTPUT
+<img width="456" height="354" alt="Screenshot 2026-01-30 155243" src="https://github.com/user-attachments/assets/78803f07-feda-4c1c-9d5b-dc90e59bb265" />
 
 ## RESULT
+The Vigenère Cipher was successfully implemented in C, and the plaintext was correctly encrypted using a repeating keyword.
